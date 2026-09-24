@@ -1,118 +1,225 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 
 const Navbar = () => {
   const { user, logout, isAuthenticated } = useAuth();
   const navigate = useNavigate();
+  const [mobileOpen, setMobileOpen] = useState(false);
 
   const handleLogout = () => {
     logout();
+    setMobileOpen(false);
     navigate('/login');
   };
 
+  const closeMobileMenu = () => setMobileOpen(false);
+
+  const navigationLinks = (
+    <>
+      <Link to="/" className="navbar-link" onClick={closeMobileMenu}>Home</Link>
+      <Link to="/services" className="navbar-link" onClick={closeMobileMenu}>Services</Link>
+      <Link to="/contact" className="navbar-link" onClick={closeMobileMenu}>Contact</Link>
+      {isAuthenticated && user?.role === 'admin' && (
+        <Link to="/admin" className="navbar-link" onClick={closeMobileMenu}>Admin</Link>
+      )}
+    </>
+  );
+
+  const authLinks = isAuthenticated ? (
+    <>
+      <span className="navbar-email">{user?.email}</span>
+      <button type="button" onClick={handleLogout} className="navbar-logout">Logout</button>
+    </>
+  ) : (
+    <>
+      <Link to="/login" className="navbar-link" onClick={closeMobileMenu}>Login</Link>
+      <Link to="/signup" className="navbar-link" onClick={closeMobileMenu}>Signup</Link>
+    </>
+  );
+
   return (
-    <nav style={styles.nav} className="app-navbar">
-      <Link to="/" style={styles.brand} className="brand">DevSKD</Link>
+    <>
+      <nav className="navbar">
+        <Link to="/" className="navbar-brand" onClick={closeMobileMenu}>DevSKD</Link>
 
-      <div style={styles.links} className="links">
-        <Link to="/" style={styles.link}>Home</Link>
-        <Link to="/services" style={styles.link}>Services</Link>
-        <Link to="/contact" style={styles.link}>Contact</Link>
-        {isAuthenticated && user?.role === 'admin' && (
-          <Link to="/admin" style={styles.link}>Admin</Link>
-        )}
-      </div>
+        <div className="navbar-links">{navigationLinks}</div>
 
-      <div style={styles.right} className="right">
-        {isAuthenticated ? (
-          <>
-            <span style={styles.email}>{user?.email}</span>
-            <button onClick={handleLogout} style={styles.logoutBtn}>
-              Logout
-            </button>
-          </>
-        ) : (
-          <>
-            <Link to="/login" style={styles.link}>Login</Link>
-            <Link to="/signup" style={styles.link}>Signup</Link>
-          </>
-        )}
-      </div>
+        <div className="navbar-right">
+          <Link to="/contact" className="btn-primary" onClick={closeMobileMenu}>
+            Start a Project
+          </Link>
+          <div className="navbar-auth">{authLinks}</div>
+          <button
+            type="button"
+            className="navbar-mobile-toggle"
+            onClick={() => setMobileOpen((open) => !open)}
+            aria-expanded={mobileOpen}
+            aria-label="Toggle navigation menu"
+          >
+            ☰
+          </button>
+        </div>
+
+        {mobileOpen && (
+  <div className="navbar-mobile-panel">
+    <div className="navbar-mobile-links">{navigationLinks}</div>
+    <div className="navbar-mobile-auth">{authLinks}</div>
+    <Link
+      to="/contact"
+      className="btn-primary"
+      onClick={closeMobileMenu}
+      style={{ textAlign: 'center' }}
+    >
+      Start a Project
+    </Link>
+  </div>
+)}
+      </nav>
+
       <style>{`
-        @media (max-width: 600px) {
-          .app-navbar {
-            justify-content: center;
-          }
-          .app-navbar .brand {
-            flex-basis: 100%;
-            text-align: center;
-          }
-          .app-navbar .links {
-            order: 2;
-            flex-basis: 100%;
-            justify-content: center;
+        .navbar {
+          position: sticky;
+          top: 0;
+          z-index: 10;
+          display: flex;
+          align-items: center;
+          gap: 32px;
+          min-height: 64px;
+          padding: 0 24px;
+          background: rgba(10, 14, 39, 0.75);
+          backdrop-filter: blur(12px);
+          border-bottom: 1px solid var(--border-subtle);
+        }
+
+        .navbar-brand {
+          color: var(--brand-primary);
+          font-weight: 700;
+          font-size: 1.2rem;
+          text-decoration: none;
+          flex-shrink: 0;
+        }
+
+        .navbar-links,
+        .navbar-auth,
+        .navbar-right {
+          display: flex;
+          align-items: center;
+        }
+
+        .navbar-links {
+          gap: 24px;
+        }
+
+        .navbar-right {
+          gap: 16px;
+          margin-left: auto;
+        }
+
+        .navbar-auth {
+          gap: 16px;
+        }
+
+        .navbar-link {
+          color: var(--text-secondary);
+          font-size: 0.9rem;
+          font-weight: 500;
+          text-decoration: none;
+          transition: color var(--transition-fast);
+        }
+
+        .navbar-link:hover {
+          color: var(--text-primary);
+        }
+
+        .navbar-email {
+          color: var(--text-tertiary);
+          font-size: 0.85rem;
+        }
+
+        .navbar-logout {
+          padding: 7px 14px;
+          background: transparent;
+          color: var(--text-secondary);
+          border: 1px solid var(--border-strong);
+          border-radius: var(--radius-sm);
+          cursor: pointer;
+          font: inherit;
+          font-size: 0.85rem;
+          transition: border-color var(--transition-fast), color var(--transition-fast);
+        }
+
+        .navbar-logout:hover {
+          border-color: var(--brand-primary);
+          color: var(--text-primary);
+        }
+
+        .navbar-mobile-toggle {
+          display: none;
+          padding: 6px 10px;
+          background: transparent;
+          color: var(--text-primary);
+          border: 1px solid var(--border-strong);
+          border-radius: var(--radius-sm);
+          cursor: pointer;
+          font-size: 1.2rem;
+          line-height: 1;
+        }
+
+        .navbar-mobile-panel {
+          display: none;
+        }
+
+        @media (max-width: 767px) {
+          .navbar {
+            min-height: 64px;
+            padding: 12px 16px;
             flex-wrap: wrap;
           }
-          .app-navbar .right {
-            order: 3;
-            margin-left: 0;
+
+          .navbar-links,
+          .navbar-auth {
+            display: none;
+          }
+
+          .navbar-right {
+            gap: 10px;
+          }
+
+          .navbar-mobile-toggle {
+            display: block;
+          }
+
+          .navbar-mobile-panel {
+            display: flex;
+            flex-basis: 100%;
+            flex-direction: column;
+            gap: 12px;
+            margin: 0 -16px -12px;
+            padding: 16px;
+            background: var(--bg-secondary);
+            border-bottom: 1px solid var(--border-subtle);
+          }
+
+          .navbar-mobile-links,
+          .navbar-mobile-auth {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+          }
+
+          .navbar-mobile-auth {
+            padding-top: 12px;
+            border-top: 1px solid var(--border-subtle);
+          }
+
+          .navbar-mobile-panel .navbar-email {
+            display: block;
           }
         }
       `}</style>
-    </nav>
+    </>
   );
-};
-
-const styles = {
-  nav: {
-    display: 'flex',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    padding: '12px 24px',
-    background: 'white',
-    boxShadow: '0 2px 8px rgba(0,0,0,0.08)',
-    position: 'sticky',
-    top: 0,
-    zIndex: 10,
-    flexWrap: 'wrap',
-    gap: '20px',
-  },
-  brand: {
-    fontSize: '1.2rem',
-    fontWeight: 700,
-    color: '#667eea',
-    textDecoration: 'none',
-  },
-  right: {
-    display: 'flex',
-    alignItems: 'center',
-    gap: '16px',
-    marginLeft: 'auto',
-  },
-  links: {
-    display: 'flex',
-    alignItems: 'center',
-    gap: '20px',
-  },
-  email: {
-    color: '#555',
-    fontSize: '0.9rem',
-  },
-  link: {
-    color: '#667eea',
-    textDecoration: 'none',
-    fontWeight: 600,
-  },
-  logoutBtn: {
-    padding: '6px 14px',
-    background: '#fc8181',
-    color: 'white',
-    border: 'none',
-    borderRadius: '6px',
-    cursor: 'pointer',
-    fontWeight: 600,
-  },
 };
 
 export default Navbar;

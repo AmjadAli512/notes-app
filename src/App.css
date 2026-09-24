@@ -1,14 +1,85 @@
+:root {
+  /* Brand */
+  --brand-primary: #667eea;
+  --brand-primary-hover: #5568d3;
+  --brand-secondary: #764ba2;
+  --brand-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+
+  /* Dark theme (default) */
+  --bg-primary: #0a0e27;
+  --bg-secondary: #0f1533;
+  --bg-tertiary: #151b3d;
+  --bg-elevated: #1a1f3a;
+
+  --text-primary: #ffffff;
+  --text-secondary: #b8bdd6;
+  --text-tertiary: #7a7f9a;
+
+  --border-subtle: rgba(255, 255, 255, 0.08);
+  --border-strong: rgba(255, 255, 255, 0.16);
+
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.3);
+  --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.4);
+  --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.5);
+  --shadow-glow: 0 0 24px rgba(102, 126, 234, 0.35);
+
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 14px;
+  --radius-xl: 20px;
+
+  --transition-fast: 150ms ease;
+  --transition-base: 220ms ease;
+  --transition-slow: 400ms ease;
+}
+
+.theme-light {
+  --bg-primary: #f8f9ff;
+  --bg-secondary: #ffffff;
+  --bg-tertiary: #f0f2ff;
+  --bg-elevated: #ffffff;
+
+  --text-primary: #1a1d2e;
+  --text-secondary: #555555;
+  --text-tertiary: #999999;
+
+  --border-subtle: rgba(0, 0, 0, 0.08);
+  --border-strong: rgba(0, 0, 0, 0.15);
+
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.08);
+  --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.1);
+  --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.15);
+  --shadow-glow: none;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Oxygen',
+    'Ubuntu', sans-serif;
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  -webkit-font-smoothing: antialiased;
+  transition: background 0.3s ease, color 0.3s ease;
+}
+
 .app {
   min-height: 100vh;
-  background: #f0f2f5;
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  transition: background 0.3s ease;
 }
 
 .app-header {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  color: white;
+  background: var(--brand-gradient);
+  color: var(--text-primary);
   padding: 40px 20px;
   text-align: center;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  box-shadow: var(--shadow-md);
 }
 
 .app-header h1 {
@@ -33,18 +104,18 @@
 
 .notes-section h2 {
   font-size: 1.8rem;
-  color: #333;
+  color: var(--text-primary);
   margin-bottom: 20px;
   padding-bottom: 10px;
-  border-bottom: 3px solid #667eea;
+  border-bottom: 3px solid var(--brand-primary);
 }
 
 .error-message {
-  background: #fee;
-  color: #c0392b;
+  background: var(--bg-tertiary);
+  color: var(--text-primary);
   padding: 16px;
-  border-radius: 8px;
-  border: 1px solid #f5c6cb;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-strong);
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -52,19 +123,19 @@
 }
 
 .retry-btn {
-  background: #c0392b;
-  color: white;
+  background: var(--brand-primary);
+  color: #ffffff;
   border: none;
   padding: 8px 16px;
-  border-radius: 4px;
+  border-radius: var(--radius-sm);
   cursor: pointer;
+  transition: background var(--transition-fast);
 }
 
-@media (max-width: 600px) {
-  .app-header h1 { font-size: 1.8rem; }
-  .app-main { padding: 20px 16px; }
-  .notes-section h2 { font-size: 1.4rem; }
+.retry-btn:hover {
+  background: var(--brand-primary-hover);
 }
+
 /* ---------- AUTH PAGES ---------- */
 .auth-container {
   min-height: calc(100vh - 60px);
@@ -72,28 +143,29 @@
   align-items: center;
   justify-content: center;
   padding: 40px 20px;
-  background: #f0f2f5;
+  background: var(--bg-primary);
 }
 
 .auth-card {
-  background: white;
+  background: var(--bg-elevated);
   padding: 40px;
-  border-radius: 16px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  border-radius: var(--radius-xl);
+  border: 1px solid var(--border-subtle);
+  box-shadow: var(--shadow-lg);
   max-width: 420px;
   width: 100%;
 }
 
 .auth-card h2 {
   font-size: 1.8rem;
-  color: #222;
+  color: var(--text-primary);
   margin-bottom: 6px;
   text-align: center;
 }
 
 .auth-subtitle {
   text-align: center;
-  color: #888;
+  color: var(--text-secondary);
   font-size: 0.9rem;
   margin-bottom: 28px;
 }
@@ -106,41 +178,48 @@
   display: block;
   font-weight: 600;
   font-size: 0.9rem;
-  color: #555;
+  color: var(--text-secondary);
   margin-bottom: 6px;
 }
 
 .auth-card .form-group input {
   width: 100%;
   padding: 11px 14px;
-  border: 2px solid #e0e0e0;
-  border-radius: 8px;
+  background: var(--bg-secondary);
+  color: var(--text-primary);
+  border: 2px solid var(--border-strong);
+  border-radius: var(--radius-sm);
   font-size: 1rem;
-  transition: border-color 0.2s;
+  transition: border-color var(--transition-base), background var(--transition-base);
   font-family: inherit;
+}
+
+.auth-card .form-group input::placeholder {
+  color: var(--text-tertiary);
 }
 
 .auth-card .form-group input:focus {
   outline: none;
-  border-color: #667eea;
+  border-color: var(--brand-primary);
 }
 
 .auth-card .submit-btn {
   width: 100%;
   padding: 12px;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  color: white;
+  background: var(--brand-gradient);
+  color: #ffffff;
   border: none;
-  border-radius: 8px;
+  border-radius: var(--radius-sm);
   font-size: 1rem;
   font-weight: 600;
   cursor: pointer;
   margin-top: 8px;
-  transition: transform 0.2s;
+  transition: transform var(--transition-fast), box-shadow var(--transition-base);
 }
 
 .auth-card .submit-btn:hover:not(:disabled) {
   transform: translateY(-2px);
+  box-shadow: var(--shadow-glow);
 }
 
 .auth-card .submit-btn:disabled {
@@ -151,12 +230,12 @@
 .auth-footer {
   text-align: center;
   margin-top: 20px;
-  color: #666;
+  color: var(--text-secondary);
   font-size: 0.9rem;
 }
 
 .auth-footer a {
-  color: #667eea;
+  color: var(--brand-primary);
   font-weight: 600;
   text-decoration: none;
 }
@@ -165,7 +244,122 @@
   text-decoration: underline;
 }
 
-/* Remove the old .app-header (from Week 5) — now that Navbar replaces it */
-.app-header {
-  display: none;
+.empty-state {
+  color: var(--text-secondary);
+  background: var(--bg-primary);
+}
+
+.section-container {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 80px 24px;
+}
+
+.section-eyebrow {
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--brand-primary);
+  margin-bottom: 12px;
+}
+
+.section-title {
+  font-size: clamp(1.8rem, 4vw, 2.6rem);
+  font-weight: 700;
+  line-height: 1.15;
+  color: var(--text-primary);
+  margin-bottom: 16px;
+  letter-spacing: -0.02em;
+}
+
+.section-subtitle {
+  font-size: 1.05rem;
+  color: var(--text-secondary);
+  max-width: 640px;
+  line-height: 1.6;
+}
+
+.card-surface {
+  background: var(--bg-elevated);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  padding: 24px;
+  box-shadow: var(--shadow-sm);
+  transition: transform var(--transition-base), box-shadow var(--transition-base),
+    border-color var(--transition-base);
+}
+
+.card-surface:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-md), var(--shadow-glow);
+  border-color: var(--border-strong);
+}
+
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 12px 22px;
+  background: var(--brand-gradient);
+  color: #ffffff;
+  border: none;
+  border-radius: var(--radius-md);
+  font-weight: 600;
+  font-size: 0.95rem;
+  cursor: pointer;
+  text-decoration: none;
+  transition: transform var(--transition-fast), box-shadow var(--transition-base);
+}
+
+.btn-primary:hover {
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-glow);
+}
+
+.btn-ghost {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 12px 22px;
+  background: transparent;
+  color: var(--text-primary);
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-md);
+  font-weight: 600;
+  font-size: 0.95rem;
+  cursor: pointer;
+  text-decoration: none;
+  transition: all var(--transition-fast);
+}
+
+.btn-ghost:hover {
+  border-color: var(--brand-primary);
+  color: var(--brand-primary);
+}
+
+@media (max-width: 600px) {
+  .app-header h1 {
+    font-size: 1.8rem;
+  }
+
+  .app-main {
+    padding: 20px 16px;
+  }
+
+  .notes-section h2 {
+    font-size: 1.4rem;
+  }
+}
+
+.interactive-background {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  pointer-events: none;
+  display: block;
 }
