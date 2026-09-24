@@ -12,10 +12,19 @@ const Navbar = () => {
   };
 
   return (
-    <nav style={styles.nav}>
-      <Link to="/" style={styles.brand}>📝 Notes App</Link>
+    <nav style={styles.nav} className="app-navbar">
+      <Link to="/" style={styles.brand} className="brand">DevSKD</Link>
 
-      <div style={styles.right}>
+      <div style={styles.links} className="links">
+        <Link to="/" style={styles.link}>Home</Link>
+        <Link to="/services" style={styles.link}>Services</Link>
+        <Link to="/contact" style={styles.link}>Contact</Link>
+        {isAuthenticated && user?.role === 'admin' && (
+          <Link to="/admin" style={styles.link}>Admin</Link>
+        )}
+      </div>
+
+      <div style={styles.right} className="right">
         {isAuthenticated ? (
           <>
             <span style={styles.email}>{user?.email}</span>
@@ -30,6 +39,27 @@ const Navbar = () => {
           </>
         )}
       </div>
+      <style>{`
+        @media (max-width: 600px) {
+          .app-navbar {
+            justify-content: center;
+          }
+          .app-navbar .brand {
+            flex-basis: 100%;
+            text-align: center;
+          }
+          .app-navbar .links {
+            order: 2;
+            flex-basis: 100%;
+            justify-content: center;
+            flex-wrap: wrap;
+          }
+          .app-navbar .right {
+            order: 3;
+            margin-left: 0;
+          }
+        }
+      `}</style>
     </nav>
   );
 };
@@ -45,6 +75,8 @@ const styles = {
     position: 'sticky',
     top: 0,
     zIndex: 10,
+    flexWrap: 'wrap',
+    gap: '20px',
   },
   brand: {
     fontSize: '1.2rem',
@@ -56,6 +88,12 @@ const styles = {
     display: 'flex',
     alignItems: 'center',
     gap: '16px',
+    marginLeft: 'auto',
+  },
+  links: {
+    display: 'flex',
+    alignItems: 'center',
+    gap: '20px',
   },
   email: {
     color: '#555',

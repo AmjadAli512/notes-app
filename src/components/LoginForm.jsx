@@ -25,7 +25,7 @@ const LoginForm = () => {
     setLoading(false);
 
     if (result.success) {
-      navigate('/notes');
+      navigate('/');
     } else {
       setError(result.error || 'Login failed');
     }
@@ -60,6 +60,12 @@ const LoginForm = () => {
               disabled={loading}
               autoComplete="current-password"
             />
+          </div>
+
+          <div style={{ textAlign: 'right', marginTop: '-8px', marginBottom: '16px' }}>
+            <Link to="/forgot-password" style={{ fontSize: '0.85rem', color: '#4f46e5', textDecoration: 'none' }}>
+              Forgot password?
+            </Link>
           </div>
 
           {error && <div className="form-error">{error}</div>}

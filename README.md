@@ -28,3 +28,5 @@ Runs at `http://localhost:3001`.
 - **Logout** → Removes JWT from localStorage
 
 Users can only see their own notes (filtered by `userId` on the backend).
+
+

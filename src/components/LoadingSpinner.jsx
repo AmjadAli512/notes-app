@@ -1,10 +1,30 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
 const LoadingSpinner = () => {
+  const [message, setMessage] = useState('Loading...');
+
+  useEffect(() => {
+    const wakeUpTimer = setTimeout(() => {
+      setMessage('Waking up the server... ☕');
+    }, 3000);
+    const startupTimer = setTimeout(() => {
+      setMessage('Server is starting up. This can take up to a minute. 🐢');
+    }, 15000);
+    const almostThereTimer = setTimeout(() => {
+      setMessage('Almost there — the free-tier server is nearly ready. ⏳');
+    }, 40000);
+
+    return () => {
+      clearTimeout(wakeUpTimer);
+      clearTimeout(startupTimer);
+      clearTimeout(almostThereTimer);
+    };
+  }, []);
+
   return (
     <div className="loading-spinner" style={styles.container}>
       <div style={styles.spinner}></div>
-      <p style={styles.text}>Loading notes...</p>
+      <p style={styles.text}>{message}</p>
       <style>{`
         @keyframes spin {
           0% { transform: rotate(0deg); }
@@ -22,6 +42,8 @@ const styles = {
     alignItems: 'center',
     justifyContent: 'center',
     padding: '40px 20px',
+    backgroundColor: '#f8f9ff',
+    borderRadius: '12px',
   },
   spinner: {
     width: '48px',
@@ -33,9 +55,9 @@ const styles = {
   },
   text: {
     marginTop: '16px',
-    color: '#666',
+    color: '#667eea',
     fontSize: '0.95rem',
-  }
+  },
 };
 
 export default LoadingSpinner;
